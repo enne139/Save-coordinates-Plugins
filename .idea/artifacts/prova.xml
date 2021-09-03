@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="prova">
+    <output-path>$PROJECT_DIR$/out/artifacts/prova</output-path>
+    <root id="archive" name="prova.jar">
+      <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
+      <element id="module-output" name="Save-coordinates-Plugins" />
+    </root>
+  </artifact>
+</component>
