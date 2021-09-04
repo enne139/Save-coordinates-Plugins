@@ -25,7 +25,7 @@ public class Com_savewp implements CommandExecutor, TabCompleter {
             String uuid = new String();
 
             if ( !( strings.length==1 || strings.length==2 ) ) {      // se non ha 1 o 2 argomenti stampa la sntassi
-                player.sendMessage(ChatColor.YELLOW + "/savewp nome [privato]");
+                player.sendMessage(ChatColor.YELLOW + "/addwp nome [privato]");
                 return false;
             }
 
