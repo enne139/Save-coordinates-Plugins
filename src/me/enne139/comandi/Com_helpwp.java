@@ -17,12 +17,12 @@ public class Com_helpwp implements CommandExecutor, TabCompleter {
         if ( commandSender instanceof Player){                // se chi esegue il comando è un player
         Player player = (Player) commandSender;               // ottiene il player
 
-            player.sendMessage(ChatColor.YELLOW + "Commandi ------------------------------------------");
+            player.sendMessage(ChatColor.YELLOW + "Commandi ---------------------------------------------");
             player.sendMessage("/wpadd [nome] <privato/pubblico>");
             player.sendMessage("/wpdel [privato/pubblico] [nome] [conferma_nome]");
             player.sendMessage("/wplist <privato/pubblico> <info>");
             player.sendMessage("/wphelp");
-            player.sendMessage(ChatColor.YELLOW + "----------------------------------------------------");
+            player.sendMessage(ChatColor.YELLOW + "-----------------------------------------------------");
 
         }
         return true;
