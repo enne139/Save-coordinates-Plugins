@@ -3,13 +3,13 @@ name: Save-coordinates-Plugins
 version: 0.5
 commands:
   addwp:
-    description: save location
-    usage: /<command> <nome> [publico]
+    description: aggiunge un waypoint
+    usage: /addwp [nome] <privato/pubblico>
     aliases: [ awp ]
   delwp:
-    description: save location
-    usage: /<command> <privato> <nome> <confnome>
+    description: cancella un waypoint
+    usage: /delwp [privato/pubblico] [nome] [conferma_nome]
   listwp:
-    description: save location
-    usage: /<command>
+    description: mostra la lista dei waypoint
+    usage: /listwp <privato/pubblico> <info>
     aliases: [ lwp ]
