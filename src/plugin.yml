@@ -15,6 +15,10 @@ commands:
     usage: /listwp <privato/pubblico> <info>
     aliases: [ wplist, wpl ]
   helpwp:
-    description: mostra la lista dei waypoint
+    description: mostra la lista dei comandi
     usage: /helpwp
     aliases: [ wphelp, wph ]
+  getwp:
+    description: mostra le cordiane di un waypoint
+    usage: /getwp [privato/pubblico] [nome]
+    aliases: [ wpget, wpg ]

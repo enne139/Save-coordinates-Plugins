@@ -21,6 +21,7 @@ public class Com_helpwp implements CommandExecutor, TabCompleter {
             player.sendMessage("/wpadd [nome] <privato/pubblico>");
             player.sendMessage("/wpdel [privato/pubblico] [nome] [conferma_nome]");
             player.sendMessage("/wplist <privato/pubblico> <info>");
+            player.sendMessage("/getwp [privato/pubblico] [nome]");
             player.sendMessage("/wphelp");
             player.sendMessage(ChatColor.YELLOW + "-----------------------------------------------------");
 

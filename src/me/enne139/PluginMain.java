@@ -1,10 +1,7 @@
 package me.enne139;
 
 
-import me.enne139.comandi.Com_addwp;
-import me.enne139.comandi.Com_delwp;
-import me.enne139.comandi.Com_helpwp;
-import me.enne139.comandi.Com_listwp;
+import me.enne139.comandi.*;
 import me.enne139.ogg.Waiponint;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,6 +35,9 @@ public class PluginMain extends JavaPlugin {
 
         this.getCommand( "helpwp").setExecutor( new Com_helpwp() );
         this.getCommand( "helpwp").setTabCompleter( new Com_helpwp() );
+
+        this.getCommand( "getwp").setExecutor( new Com_getwp() );
+        this.getCommand( "getwp").setTabCompleter( new Com_getwp() );
     }
 
     public void crea_cartella() {
