@@ -1,6 +1,7 @@
 package me.enne139.comandi;
 
 import me.enne139.PluginMain;
+import me.enne139.ogg.Waiponint;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -14,85 +15,90 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Com_savewp implements CommandExecutor, TabCompleter {
+public class Com_addwp implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if ( commandSender instanceof Player)
-        {
-            Player player = (Player) commandSender;                   // ottine player che ha usato il comando
-            Location pos = player.getLocation();                      // ottine la posizione del player
-            String uuid = new String();
 
-            if ( !( strings.length==1 || strings.length==2 ) ) {      // se non ha 1 o 2 argomenti stampa la sntassi
-                player.sendMessage(ChatColor.YELLOW + "/addwp nome [privato]");
-                return false;
+        if ( commandSender instanceof Player) {                 // se chi esegue il comando è un player
+            Player player = (Player) commandSender;             // ottine il player
+            Location pos = player.getLocation();                // ottine la sua pozizione
+            String file = new String();
+
+            if ( strings.length>2 ) {                           // se ha più di due argomenti manda la sintassi
+                player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/publico>");
+                return true;
             }
 
-            if ( strings.length==2 ) {                                // se ci sono 2 argoemnti
-                if ( strings[1].equals("publico") ) {                 // se il secondo argoemnto
-                    uuid = "GLOBAL";
-                } else if ( strings[1].equals("privato") ){
-                    uuid = player.getUniqueId().toString();
-                } else {                                              // se il secondo argomento non è una scelta valida
-                    player.sendMessage(ChatColor.YELLOW + command.toString() + " nome [privato]");
-                    return false;
+            if ( strings.length==2 ) {                          // se ha due argomneti imosta il file
+                if ( strings[1].equals("publico") ) {           // se il secondo argomento è "publico"
+                    file = "GLOBAL";                            // imposta il nome del file come GLOBAL
+                } else if ( strings[1].equals("privato") ){     // se il secondo argomento è "privato"
+                    file = player.getUniqueId().toString();     // imposta il nome del file come l'uudi del utente
+                } else {                                        // se è un valore non valido manda la sintassi
+                    player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/publico>");
+                    return true;
                 }
             }
 
-            if ( strings.length==1 ) {                                // senza specifica è privato
-                uuid = player.getUniqueId().toString();
+            if ( strings.length==1 ) {                          // se c'è un argomento solo
+                file = player.getUniqueId().toString();         // imposta il nome del file come l'uudi del utente
             }
 
 
-            String nome = strings[0];
+            String nome = strings[0];                               // il primo argomento indica il nome
             double x = pos.getX();
             double y = pos.getY();
             double z = pos.getZ();
             World world = pos.getWorld();
             boolean trovato = false;
+            String val;
 
-            List<String> p = PluginMain.legge_file( uuid);
-            for ( int i=0; i<p.size(); i++) {
-                if ( (p.get(i)).split( ";")[0].equals(nome) ) {
+            List<Waiponint> p = PluginMain.leggi_waypoint( file);   // ottine i waypoint salvati
+            for ( int i=0; i<p.size(); i++) {                       // scorre la lista
+                val = (p.get(i)).nome;
+                if ( val.equals(nome) ) {                           // se trova il waypoint
                     trovato = true;
                     break;
                 }
             }
-            if ( trovato ) {
+
+            if ( trovato ) {                                        // se esiste già il waypoint ritorna un messagio
                 player.sendMessage(ChatColor.RED + "waypoin già esistente");
-            } else {
-                PluginMain.scrivi_file( uuid, pos, strings[0]);
-                player.sendMessage(ChatColor.GREEN + "waypoint aggiunto");
+                return true;
+            } else {                                                // prova a scivere aggiungere il waypoiny
+
+                boolean ess = PluginMain.append_file( file, pos, strings[0]);
+                if ( ess ) {                                        // se riesce
+                    player.sendMessage(ChatColor.GREEN + "waypoint aggiunto");
+                } else {                                            // se non riesce
+                    player.sendMessage(ChatColor.RED + "aggiunta waypoint fallita");
+                }
+
             }
 
         }
 
-
-        return false;
+        return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        List<String> arg = new ArrayList<String>();
+        List<String> arg = new ArrayList<String>();                 // creazione lista di autocompletamento
 
-        if ( commandSender instanceof Player)
-        {
-            Player player = (Player) commandSender;
+        if ( commandSender instanceof Player) {                     // se chi esegue il comando è un player
 
-            if ( strings.length == 1 ) {
+            if ( strings.length == 1 ) {                            // se che solo un argomento
                 arg.add( "nome");
 
-            } else if ( strings.length == 2) {
+            } else if ( strings.length == 2) {                      // se ci sono due argomenti
                 arg.add( "privato");
                 arg.add( "publico");
             }
 
-
-            //player.sendMessage( Integer.toString(strings.length) );
         }
 
-        return arg;
+        return arg;                                                 // ritorna la lista con le possibile scelte
     }
 }

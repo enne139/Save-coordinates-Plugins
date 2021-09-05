@@ -1,14 +1,14 @@
 main: me.enne139.PluginMain
 name: Save-coordinates-Plugins
-version: 0.1
+version: 0.5
 commands:
-  savewp:
+  addwp:
     description: save location
-    usage: /<command>
-    aliases: [ swp ]
+    usage: /<command> <nome> [publico]
+    aliases: [ awp ]
   delwp:
     description: save location
-    usage: /<command>
+    usage: /<command> <privato> <nome> <confnome>
   listwp:
     description: save location
     usage: /<command>
