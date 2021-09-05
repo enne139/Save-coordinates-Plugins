@@ -5,11 +5,16 @@ commands:
   addwp:
     description: aggiunge un waypoint
     usage: /addwp [nome] <privato/pubblico>
-    aliases: [ awp ]
+    aliases: [ wpadd, wpa ]
   delwp:
     description: cancella un waypoint
     usage: /delwp [privato/pubblico] [nome] [conferma_nome]
+    aliases: [ wpdel ]
   listwp:
     description: mostra la lista dei waypoint
     usage: /listwp <privato/pubblico> <info>
-    aliases: [ lwp ]
+    aliases: [ wplist, wpl ]
+  helptwp:
+    description: mostra la lista dei waypoint
+    usage: /helptwp
+    aliases: [ wphelp, wph ]

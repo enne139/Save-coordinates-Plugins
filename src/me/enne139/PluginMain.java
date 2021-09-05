@@ -3,6 +3,7 @@ package me.enne139;
 
 import me.enne139.comandi.Com_addwp;
 import me.enne139.comandi.Com_delwp;
+import me.enne139.comandi.Com_helpwp;
 import me.enne139.comandi.Com_listwp;
 import me.enne139.ogg.Waiponint;
 import org.bukkit.Bukkit;
@@ -34,6 +35,9 @@ public class PluginMain extends JavaPlugin {
 
         this.getCommand( "listwp").setExecutor( new Com_listwp() );
         this.getCommand( "listwp").setTabCompleter( new Com_listwp() );
+
+        this.getCommand( "helpwp").setExecutor( new Com_helpwp() );
+        this.getCommand( "helpwp").setTabCompleter( new Com_helpwp() );
     }
 
     public void crea_cartella() {
