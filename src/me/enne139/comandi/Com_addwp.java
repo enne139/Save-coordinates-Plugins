@@ -21,22 +21,22 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if ( commandSender instanceof Player) {                 // se chi esegue il comando è un player
-            Player player = (Player) commandSender;             // ottine il player
-            Location pos = player.getLocation();                // ottine la sua pozizione
+            Player player = (Player) commandSender;             // ottiene il player
+            Location pos = player.getLocation();                // ottiene la sua posizione
             String file = new String();
 
             if ( strings.length>2 ) {                           // se ha più di due argomenti manda la sintassi
-                player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/publico>");
+                player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/pubblico>");
                 return true;
             }
 
-            if ( strings.length==2 ) {                          // se ha due argomneti imosta il file
-                if ( strings[1].equals("publico") ) {           // se il secondo argomento è "publico"
+            if ( strings.length==2 ) {                          // se ha due argomenti imposta il file
+                if ( strings[1].equals("pubblico") ) {           // se il secondo argomento è "pubblico"
                     file = "GLOBAL";                            // imposta il nome del file come GLOBAL
                 } else if ( strings[1].equals("privato") ){     // se il secondo argomento è "privato"
                     file = player.getUniqueId().toString();     // imposta il nome del file come l'uudi del utente
                 } else {                                        // se è un valore non valido manda la sintassi
-                    player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/publico>");
+                    player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/pubblico>");
                     return true;
                 }
             }
@@ -46,7 +46,7 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
             }
 
 
-            String nome = strings[0];                               // il primo argomento indica il nome
+            String nome = strings[0];                            // il primo argomento indica il nome
             double x = pos.getX();
             double y = pos.getY();
             double z = pos.getZ();
@@ -54,7 +54,7 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
             boolean trovato = false;
             String val;
 
-            List<Waiponint> p = PluginMain.leggi_waypoint( file);   // ottine i waypoint salvati
+            List<Waiponint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
             for ( int i=0; i<p.size(); i++) {                       // scorre la lista
                 val = (p.get(i)).nome;
                 if ( val.equals(nome) ) {                           // se trova il waypoint
@@ -63,10 +63,10 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
                 }
             }
 
-            if ( trovato ) {                                        // se esiste già il waypoint ritorna un messagio
-                player.sendMessage(ChatColor.RED + "waypoin già esistente");
+            if ( trovato ) {                                        // se esiste già il waypoint ritorna un messaggio
+                player.sendMessage(ChatColor.RED + "waypoint già esistente");
                 return true;
-            } else {                                                // prova a scivere aggiungere il waypoiny
+            } else {                                                // prova a scrivere aggiungere il waypoint
 
                 boolean ess = PluginMain.append_file( file, pos, strings[0]);
                 if ( ess ) {                                        // se riesce
@@ -85,7 +85,7 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        List<String> arg = new ArrayList<String>();                 // creazione lista di autocompletamento
+        List<String> arg = new ArrayList<String>();                 // creazione lista di auto completamento
 
         if ( commandSender instanceof Player) {                     // se chi esegue il comando è un player
 
@@ -94,7 +94,7 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
 
             } else if ( strings.length == 2) {                      // se ci sono due argomenti
                 arg.add( "privato");
-                arg.add( "publico");
+                arg.add( "pubblico");
             }
 
         }

@@ -18,12 +18,12 @@ public class Com_listwp implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if ( commandSender instanceof Player ) {                // se chi esegue il comando è un player
-            Player player = (Player) commandSender;             // ottine il player
+            Player player = (Player) commandSender;             // ottiene il player
             String file = new String();
-            boolean lungo = false;                              // se il formato di autput deve essere lungo
+            boolean lungo = false;                              // se il formato di output deve essere lungo
 
-            if ( strings.length>2 ) {                           // le ha più di due argomneto ritorna la sintassi
-                player.sendMessage(ChatColor.YELLOW + "/listwp <privato/publico> <info>");
+            if ( strings.length>2 ) {                           // le ha più di due argomento ritorna la sintassi
+                player.sendMessage(ChatColor.YELLOW + "/listwp <privato/pubblico> <info>");
                 return true;
             }
 
@@ -31,22 +31,22 @@ public class Com_listwp implements CommandExecutor, TabCompleter {
                 file = player.getUniqueId().toString();         // imposta il nome del file come l'uudi del utente
 
             } else if ( strings.length>=1 ) {                   // se piu di un argomento
-                if ( strings[0].equals("privato") ) {           // se l'argomento 1 è "privato"
+                if ( strings[0].equals("privato") ) {           // se l' argomento 1 è "privato"
                     file = player.getUniqueId().toString();     // imposta il nome del file come l'uudi del utente
 
-                } else if ( strings[0].equals("publico") ) {    // se l'argomento 1 è "publico"
+                } else if ( strings[0].equals("pubblico") ) {    // se l' argomento 1 è "pubblico"
                     file = "GLOBAL";                            // imposta il nome del file come GLOBALE
                 } else {                                        // se non è nessuno dei due manda la sintassi
-                    player.sendMessage(ChatColor.YELLOW + "/listwp <privato/publico> <info>");
+                    player.sendMessage(ChatColor.YELLOW + "/listwp <privato/pubblico> <info>");
                     return true;
                 }
             }
 
-            if ( strings.length==2 ) {                         // se ha 2 argoemnti
-                if ( strings[1].equals("info") ) {             // se l'agomneto 2 è "info" imposta formato lungo
+            if ( strings.length==2 ) {                         // se ha 2 argomento
+                if ( strings[1].equals("info") ) {             // se l' argomento 2 è "info" imposta formato lungo
                     lungo = true;
-                } else {                                       // se non è uguale a "info" manda la sinstassi
-                    player.sendMessage(ChatColor.YELLOW + "/listwp <privato/publico> <info>");
+                } else {                                       // se non è uguale a "info" manda la sintassi
+                    player.sendMessage(ChatColor.YELLOW + "/listwp <privato/pubblico> <info>");
                     return true;
                 }
             }
@@ -77,13 +77,13 @@ public class Com_listwp implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        List<String> arg = new ArrayList<String>();              // creazione lista di autocompletamento
+        List<String> arg = new ArrayList<String>();              // creazione lista di auto completamento
 
         if ( commandSender instanceof Player ) {            // se chi esegue il comando è un player
 
-            if ( strings.length == 1 ) {                    // se che un argomento aggiunte privato e publico
+            if ( strings.length == 1 ) {                    // se che un argomento aggiunte privato e pubblico
                 arg.add("privato");
-                arg.add("publico");
+                arg.add("pubblico");
             } else if ( strings.length == 2 ) {             // se ci sono 2 argomenti aggiunge info
                 arg.add("info");
             }

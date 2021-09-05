@@ -44,8 +44,8 @@ public class PluginMain extends JavaPlugin {
 
         if( !cartella.isDirectory()) {                              // se non esiste
             check = cartella.mkdir();                               // prova a creare la cartella
-            if ( check ) {                                          // se non è riscuto a creare la cartella
-                Cwarning( "Cartella creata");                  // manda un messagio di attenzione in console
+            if ( check ) {                                          // se non è riuscito a creare la cartella
+                Cwarning( "Cartella creata");                  // manda un messaggio di attenzione in console
 
             } else {                                                // se ha creato la cartella
                 Cinfo( "Cartella non creata");
@@ -54,7 +54,7 @@ public class PluginMain extends JavaPlugin {
     }
 
     public static boolean append_file(String file, Location pos, String nome )  {
-        String path = "plugins/saveCord/" + file;                       // percoso del file
+        String path = "plugins/saveCord/" + file;                       // percorso del file
         String dati = nome +";"+ pos.getX() +";"+ pos.getY() + ";"+     // dati da aggiungere
                       pos.getZ() +";"+ pos.getWorld().getName() + "\n";
 
@@ -70,7 +70,7 @@ public class PluginMain extends JavaPlugin {
 
         } catch(IOException e){
             e.printStackTrace();
-            Cwarning("aggiunta dati fallita");                      // segnala problemma sulla console
+            Cwarning("aggiunta dati fallita");                      // segnala problema sulla console
             return false;
         }
         return true;
@@ -87,28 +87,28 @@ public class PluginMain extends JavaPlugin {
 
             BufferedReader br = new BufferedReader( new FileReader( fr));
             while ( br.ready() ) {                          // legge fino alla fine del file
-                list.add( br.readLine() );                  // aggiunge rige alla lista
+                list.add( br.readLine() );                  // aggiunge righe alla lista
             }
             br.close();                                     // chiude file
 
         } catch(IOException e){
             e.printStackTrace();
-            Cwarning("lettura dati fallita");          // segnala problemma sulla console
+            Cwarning("lettura dati fallita");          // segnala problema sulla console
         }
-        return list;                                        // restituisce lista rige
+        return list;                                        // restituisce lista righe
     }
 
     public static List<Waiponint> leggi_waypoint(String utente) {
 
-        List<Waiponint> waiponints = new ArrayList<Waiponint>() ;
-        List<String> liene = legge_file( utente) ;                  // ottine rige di un file
+        List<Waiponint> waypoints = new ArrayList<Waiponint>() ;
+        List<String> linee = legge_file( utente) ;                  // ottiene righe di un file
 
 
-        for ( int i=0; i<liene.size(); i++){                       // scorre il file di rige
-            waiponints.add( new Waiponint( liene.get(i) ) );       // crea e aggiuge alla lista dei weypoint
+        for ( int i=0; i<linee.size(); i++){                       // scorre il file di righe
+            waypoints.add( new Waiponint( linee.get(i) ) );       // crea e aggiunge alla lista dei waypoint
         }
 
-        return waiponints;                                         // ristorna lista waypoint
+        return waypoints;                                         // ristorna lista waypoint
     }
 
     public static boolean cancella_waypoint( String utente, String nome) {
@@ -137,7 +137,7 @@ public class PluginMain extends JavaPlugin {
                 val =  originale.split(";")[0];
 
                 if ( nome.equals( val) ) {                      // controlla se è la gia da cancellare
-                    continue;                                   // salta la colpia della riga
+                    continue;                                   // salta la copia della riga
                 }
 
                 bw.append( liena+"\n");                         // copia la riga nel file di out
@@ -151,21 +151,21 @@ public class PluginMain extends JavaPlugin {
 
         } catch(IOException e){
             e.printStackTrace();
-            Cwarning("cancelazione dati fallita");          // segnala problemma sulla console
+            Cwarning("cancellazione dati fallita");         // segnala problema sulla console
             return false;
         }
         return true;
     }
 
-    public static void Cwarning ( String msg ) {                       // manda un messagio di pericolo in console
+    public static void Cwarning ( String msg ) {                       // manda un messaggio di pericolo in console
         Bukkit.getServer().getLogger().warning( "[Save-coordinates-Plugins] " + msg);
     }
 
-    public static void Csevere ( String msg ) {                        // manda un messagio di errore in console
+    public static void Csevere ( String msg ) {                        // manda un messaggio di errore in console
         Bukkit.getServer().getLogger().severe( "[Save-coordinates-Plugins] " + msg);
     }
 
-    public static void Cinfo ( String msg ) {                          // manda un messagio di info in console
+    public static void Cinfo ( String msg ) {                          // manda un messaggio di info in console
         Bukkit.getServer().getLogger().info( "[Save-coordinates-Plugins] " + msg);
     }
 
