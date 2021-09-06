@@ -3,7 +3,7 @@ package me.enne139.ogg;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class Waiponint {
+public class Waypoint {
 
     public String nome;
     public double x;
@@ -11,7 +11,7 @@ public class Waiponint {
     public double z;
     public String mondo;
 
-    public Waiponint( String nome, double x, double y, double z, String mondo) {
+    public Waypoint(String nome, double x, double y, double z, String mondo) {
         this.nome = nome;
         this.x = x;
         this.y = y;
@@ -19,7 +19,7 @@ public class Waiponint {
         this.mondo = mondo;
     }
 
-    public Waiponint(String liena) {
+    public Waypoint(String liena) {
         String[] part = liena.split(";");
 
         this.nome = part[0];
@@ -27,6 +27,14 @@ public class Waiponint {
         this.y = Double.parseDouble( part[2] );
         this.z = Double.parseDouble( part[3] );
         this.mondo = part[4];
+    }
+
+    public int getDisx( int x) {
+        return Math.abs( (int) this.x - x );
+    }
+
+    public int getDisz( int z) {
+        return Math.abs( (int) this.z - z );
     }
 
     @Override

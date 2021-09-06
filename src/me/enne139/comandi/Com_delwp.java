@@ -1,7 +1,7 @@
 package me.enne139.comandi;
 
 import me.enne139.PluginMain;
-import me.enne139.ogg.Waiponint;
+import me.enne139.ogg.Waypoint;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,6 +19,11 @@ public class Com_delwp implements CommandExecutor, TabCompleter {
         if ( commandSender instanceof Player) {                     // se chi esegue il comando è un player
             Player player = (Player) commandSender;                 // ottiene il player
             String file;
+
+            if ( strings.length==0 ) {                          // se ci sono 0 argomenti
+                player.sendMessage(ChatColor.YELLOW + "/delwp [privato/pubblico] [nome] [conferma_nome]");
+                return true;
+            }
 
             if ( strings.length!=3 ) {                              // se non ha 3 argomenti manda la sintassi
                 player.sendMessage(ChatColor.YELLOW + "/delwp [privato/pubblico] [nome] [conferma_nome]");
@@ -44,7 +49,7 @@ public class Com_delwp implements CommandExecutor, TabCompleter {
             boolean trovato = false;
             String val;
 
-            List<Waiponint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
+            List<Waypoint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
             for ( int i=0; i<p.size(); i++) {                       // scorre la lista
                 val = (p.get(i)).nome;
                 if ( val.equals(nome) ) {                           // se trova il waypoint
@@ -79,7 +84,7 @@ public class Com_delwp implements CommandExecutor, TabCompleter {
         if ( commandSender instanceof Player) {                    // se chi esegue il comando è un player
 
             Player player = (Player) commandSender;                // ottiene il player
-            List<Waiponint> waypoints;                            // lista di waypoint
+            List<Waypoint> waypoints;                            // lista di waypoint
             String file;
 
             if ( strings.length == 1 ) {                           // se c'è solo un argomento

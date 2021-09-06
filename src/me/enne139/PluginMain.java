@@ -2,9 +2,8 @@ package me.enne139;
 
 
 import me.enne139.comandi.*;
-import me.enne139.ogg.Waiponint;
+import me.enne139.ogg.Waypoint;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,6 +37,9 @@ public class PluginMain extends JavaPlugin {
 
         this.getCommand( "getwp").setExecutor( new Com_getwp() );
         this.getCommand( "getwp").setTabCompleter( new Com_getwp() );
+
+        this.getCommand( "diswp").setExecutor( new Com_diswp() );
+        this.getCommand( "diswp").setTabCompleter( new Com_diswp() );
     }
 
     public void crea_cartella() {
@@ -102,14 +104,14 @@ public class PluginMain extends JavaPlugin {
         return list;                                        // restituisce lista righe
     }
 
-    public static List<Waiponint> leggi_waypoint(String utente) {
+    public static List<Waypoint> leggi_waypoint(String utente) {
 
-        List<Waiponint> waypoints = new ArrayList<Waiponint>() ;
+        List<Waypoint> waypoints = new ArrayList<Waypoint>() ;
         List<String> linee = legge_file( utente) ;                  // ottiene righe di un file
 
 
         for ( int i=0; i<linee.size(); i++){                       // scorre il file di righe
-            waypoints.add( new Waiponint( linee.get(i) ) );       // crea e aggiunge alla lista dei waypoint
+            waypoints.add( new Waypoint( linee.get(i) ) );       // crea e aggiunge alla lista dei waypoint
         }
 
         return waypoints;                                         // ristorna lista waypoint

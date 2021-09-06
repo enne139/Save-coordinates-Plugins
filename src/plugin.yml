@@ -4,21 +4,25 @@ version: 0.5
 commands:
   addwp:
     description: aggiunge un waypoint
-    usage: /addwp [nome] <privato/pubblico>
+    usage: /<command>
     aliases: [ wpadd, wpa ]
   delwp:
     description: cancella un waypoint
-    usage: /delwp [privato/pubblico] [nome] [conferma_nome]
+    usage: /<command>
     aliases: [ wpdel ]
   listwp:
     description: mostra la lista dei waypoint
-    usage: /listwp <privato/pubblico> <info>
+    usage: /<command>
     aliases: [ wplist, wpl ]
   helpwp:
     description: mostra la lista dei comandi
-    usage: /helpwp
+    usage: /<command>
     aliases: [ wphelp, wph ]
   getwp:
     description: mostra le cordiane di un waypoint
-    usage: /getwp [privato/pubblico] [nome]
+    usage: /<command>
     aliases: [ wpget, wpg ]
+  diswp:
+    description: mostra la distanza da un waypoint
+    usage: /<command>
+    aliases: [ wpdis, wpd ]

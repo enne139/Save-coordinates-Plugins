@@ -1,7 +1,7 @@
 package me.enne139.comandi;
 
 import me.enne139.PluginMain;
-import me.enne139.ogg.Waiponint;
+import me.enne139.ogg.Waypoint;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -24,6 +24,11 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
             Player player = (Player) commandSender;             // ottiene il player
             Location pos = player.getLocation();                // ottiene la sua posizione
             String file = new String();
+
+            if ( strings.length==0 ) {                          // se ci sono 0 argomenti
+                player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/pubblico>");
+                return true;
+            }
 
             if ( strings.length>2 ) {                           // se ha più di due argomenti manda la sintassi
                 player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/pubblico>");
@@ -54,7 +59,7 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
             boolean trovato = false;
             String val;
 
-            List<Waiponint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
+            List<Waypoint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
             for ( int i=0; i<p.size(); i++) {                       // scorre la lista
                 val = (p.get(i)).nome;
                 if ( val.equals(nome) ) {                           // se trova il waypoint

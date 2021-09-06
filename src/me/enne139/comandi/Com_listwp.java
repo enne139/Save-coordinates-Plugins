@@ -1,7 +1,7 @@
 package me.enne139.comandi;
 
 import me.enne139.PluginMain;
-import me.enne139.ogg.Waiponint;
+import me.enne139.ogg.Waypoint;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,6 +21,11 @@ public class Com_listwp implements CommandExecutor, TabCompleter {
             Player player = (Player) commandSender;             // ottiene il player
             String file = new String();
             boolean lungo = false;                              // se il formato di output deve essere lungo
+
+            if ( strings.length==0 ) {                          // se ci sono 0 argomenti
+                player.sendMessage(ChatColor.YELLOW + "/listwp <privato/pubblico> <info>");
+                return true;
+            }
 
             if ( strings.length>2 ) {                           // le ha più di due argomento ritorna la sintassi
                 player.sendMessage(ChatColor.YELLOW + "/listwp <privato/pubblico> <info>");
@@ -51,7 +56,7 @@ public class Com_listwp implements CommandExecutor, TabCompleter {
                 }
             }
 
-            List<Waiponint> wp = PluginMain.leggi_waypoint( file);      // legge i waypoint
+            List<Waypoint> wp = PluginMain.leggi_waypoint( file);      // legge i waypoint
 
             player.sendMessage(ChatColor.GOLD + "List waypoint -----------------");
             if ( lungo ) {                                              // se il formato è lungo

@@ -3,6 +3,8 @@ package me.enne139.comandi;
 import me.enne139.PluginMain;
 import me.enne139.ogg.Waypoint;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,21 +14,22 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Com_getwp implements CommandExecutor, TabCompleter {
+public class Com_diswp implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if ( commandSender instanceof Player ) {                // se chi esegue il comando è un player
+        if ( commandSender instanceof Player) {                 // se chi esegue il comando è un player
             Player player = (Player) commandSender;             // ottiene il player
+            Location pos = player.getLocation();                // ottiene la sua posizione
             String file = new String();
 
             if ( strings.length==0 ) {                          // se ci sono 0 argomenti
-                player.sendMessage(ChatColor.YELLOW + "/getwp [privato/pubblico] [nome]");
+                player.sendMessage(ChatColor.YELLOW + "/diswp [privato/pubblico] [nome]");
                 return true;
             }
 
             if ( strings.length>2 ) {                           // le ha più di due argomento ritorna la sintassi
-                player.sendMessage(ChatColor.YELLOW + "/getwp [privato/pubblico] [nome]");
+                player.sendMessage(ChatColor.YELLOW + "/diswp [privato/pubblico] [nome]");
                 return true;
             }
 
@@ -36,7 +39,7 @@ public class Com_getwp implements CommandExecutor, TabCompleter {
             } else if ( strings[0].equals("pubblico") ) {       // se l' argomento 1 è "pubblico"
                 file = "GLOBAL";                                // imposta il nome del file come GLOBALE
             } else {                                            // se non è nessuno dei due manda la sintassi
-                player.sendMessage(ChatColor.YELLOW + "/getwp [privato/pubblico] [nome]");
+                player.sendMessage(ChatColor.YELLOW + "/diswp [privato/pubblico] [nome]");
                 return true;
 
             }
@@ -51,7 +54,38 @@ public class Com_getwp implements CommandExecutor, TabCompleter {
             for ( int i=0; i<p.size(); i++) {                       // scorre la lista
                 val = (p.get(i)).nome;
                 if ( val.equals(nome) ) {                           // se trova il waypoint
-                    player.sendMessage(ChatColor.GREEN + wp.get(i).toString() ); // stampa waypoint
+                    Waypoint wpoint = wp.get(i);
+                    String output = ChatColor.GREEN + wpoint.nome;
+
+                    int x = (int) pos.getX();
+                    int z = (int) pos.getZ();
+                    World world = pos.getWorld();
+
+                    if ( !world.getName().equals(wpoint.nome)) {    // se non è nello stesso mondo
+                        player.sendMessage("waypoint in un altro mondo");
+                    }
+
+                    int disx = wpoint.getDisx( x);
+                    int disz = wpoint.getDisz( z);
+
+                    if ( z > wpoint.z ) {
+                        output += " | z : -" + Integer.toString( disz);
+                    } else if ( z < wpoint.z ) {
+                        output += " | z : +" + Integer.toString( disz);
+                    }
+
+                    if ( x > wpoint.x ) {
+                        output += " | x : -" + Integer.toString( disx);
+                    } else if ( x < wpoint.x ) {
+                        output += " | x : +" + Integer.toString( disx);
+                    }
+
+
+                    float dis = (float) Math.sqrt( Math.pow(disx, 2) + Math.pow(disz, 2) );
+
+                    output += " | distanza : " + Float.toString(dis);
+
+                    player.sendMessage(output );                    // stampa waypoint
                     return true;
                 }
             }
@@ -66,7 +100,7 @@ public class Com_getwp implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        List<String> arg = new ArrayList<String>();                // creazione lista di auto completamento
+        List<String> arg = new ArrayList<String>();                     // creazione lista di auto completamento
 
         if ( commandSender instanceof Player) {                    // se chi esegue il comando è un player
 
