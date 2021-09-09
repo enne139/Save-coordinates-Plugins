@@ -3,8 +3,6 @@ package me.enne139.comandi;
 import me.enne139.PluginMain;
 import me.enne139.ogg.Waypoint;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,86 +12,67 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Com_diswp implements CommandExecutor, TabCompleter {
+public class Com_wpdel implements CommandExecutor, TabCompleter {
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-
-        if ( commandSender instanceof Player) {                 // se chi esegue il comando è un player
-            Player player = (Player) commandSender;             // ottiene il player
-            Location pos = player.getLocation();                // ottiene la sua posizione
-            String file = new String();
+        if ( commandSender instanceof Player) {                     // se chi esegue il comando è un player
+            Player player = (Player) commandSender;                 // ottiene il player
+            String file;
 
             if ( strings.length==0 ) {                          // se ci sono 0 argomenti
-                player.sendMessage(ChatColor.YELLOW + "/diswp [privato/pubblico] [nome]");
+                player.sendMessage(ChatColor.YELLOW + "/wpdel [privato/pubblico] [nome] [conferma_nome]");
                 return true;
             }
 
-            if ( strings.length>2 ) {                           // le ha più di due argomento ritorna la sintassi
-                player.sendMessage(ChatColor.YELLOW + "/diswp [privato/pubblico] [nome]");
+            if ( strings.length!=3 ) {                              // se non ha 3 argomenti manda la sintassi
+                player.sendMessage(ChatColor.YELLOW + "/wpdel [privato/pubblico] [nome] [conferma_nome]");
                 return true;
             }
 
-            if ( strings[0].equals("privato") ) {               // se l' argomento 1 è "privato"
-                file = player.getUniqueId().toString();         // imposta il nome del file come l'uudi del utente
-
-            } else if ( strings[0].equals("pubblico") ) {       // se l' argomento 1 è "pubblico"
-                file = "GLOBAL";                                // imposta il nome del file come GLOBALE
-            } else {                                            // se non è nessuno dei due manda la sintassi
-                player.sendMessage(ChatColor.YELLOW + "/diswp [privato/pubblico] [nome]");
+            if ( strings[0].equals("pubblico") ) {                   // controlla sei il primo argomento è "pubblico"
+                file = "GLOBAL";                                    // imposta il nome del file come GLOBAL
+            } else if ( strings[0].equals("privato") ){             // controlla sei il primo argomento è "privato"
+                file = player.getUniqueId().toString();             // imposta il nome del file come l'uudi del utente
+            } else {                                                // se non è nessuno dei due manda la sintassi
+                player.sendMessage(ChatColor.YELLOW + "/wpdel [privato/pubblico] [nome] [conferma_nome]");
                 return true;
-
             }
 
 
-            List<Waypoint> wp = PluginMain.leggi_waypoint( file);  // legge i waypoint
+            if ( !strings[1].equals( strings[2] ) ) {               // controlla che il 2 e il 3 argomento nono son uguali
+                player.sendMessage(ChatColor.YELLOW + "/wpdel [privato/pubblico] [nome] [conferma_nome]");
+                return true;
+            }
 
-            String nome = strings[1];
+            String nome = strings[1];                               // nome del waypoint da eliminare
+            boolean trovato = false;
             String val;
 
             List<Waypoint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
             for ( int i=0; i<p.size(); i++) {                       // scorre la lista
                 val = (p.get(i)).nome;
                 if ( val.equals(nome) ) {                           // se trova il waypoint
-                    Waypoint wpoint = wp.get(i);
-                    String output = ChatColor.GREEN + wpoint.nome;
-
-                    int x = (int) pos.getX();
-                    int z = (int) pos.getZ();
-                    World world = pos.getWorld();
-
-                    if ( !world.getName().equals(wpoint.nome)) {    // se non è nello stesso mondo
-                        player.sendMessage("waypoint in un altro mondo");
-                    }
-
-                    int disx = wpoint.getDisx( x);
-                    int disz = wpoint.getDisz( z);
-
-                    if ( z > wpoint.z ) {
-                        output += " | z : -" + Integer.toString( disz);
-                    } else if ( z < wpoint.z ) {
-                        output += " | z : +" + Integer.toString( disz);
-                    }
-
-                    if ( x > wpoint.x ) {
-                        output += " | x : -" + Integer.toString( disx);
-                    } else if ( x < wpoint.x ) {
-                        output += " | x : +" + Integer.toString( disx);
-                    }
-
-
-                    float dis = (float) Math.sqrt( Math.pow(disx, 2) + Math.pow(disz, 2) );
-
-                    output += " | distanza : " + Float.toString(dis);
-
-                    player.sendMessage(output );                    // stampa waypoint
-                    return true;
+                    trovato = true;
+                    break;
                 }
             }
 
-            player.sendMessage("waypoint non esistente");        // se non viene trovato il waypoint
+            if ( trovato ) {                                        // se esiste
 
+                boolean ess = PluginMain.cancella_waypoint( file, nome);;   // prova a cancellarlo
+                if ( ess ) {                                        // se riesce
+                    player.sendMessage(ChatColor.GREEN + "waypoint rimosso");
+                } else {                                            // se non riesce
+                    player.sendMessage(ChatColor.RED + "rimozione waypoint fallita");
+                }
+
+            } else {                                                // se non esiste
+                player.sendMessage(ChatColor.RED + "waypoin non esistente");
+            }
 
         }
+
         return true;
     }
 
@@ -105,7 +84,7 @@ public class Com_diswp implements CommandExecutor, TabCompleter {
         if ( commandSender instanceof Player) {                    // se chi esegue il comando è un player
 
             Player player = (Player) commandSender;                // ottiene il player
-            List<Waypoint> waypoints;                             // lista di waypoint
+            List<Waypoint> waypoints;                            // lista di waypoint
             String file;
 
             if ( strings.length == 1 ) {                           // se c'è solo un argomento

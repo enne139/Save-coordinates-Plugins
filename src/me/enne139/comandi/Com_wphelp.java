@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Com_helpwp implements CommandExecutor, TabCompleter {
+public class Com_wphelp implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
@@ -21,7 +21,8 @@ public class Com_helpwp implements CommandExecutor, TabCompleter {
             player.sendMessage("/wpadd [nome] <privato/pubblico>");
             player.sendMessage("/wpdel [privato/pubblico] [nome] [conferma_nome]");
             player.sendMessage("/wplist <privato/pubblico> <info>");
-            player.sendMessage("/getwp [privato/pubblico] [nome]");
+            player.sendMessage("/wpget [privato/pubblico] [nome]");
+            player.sendMessage("/wpdis [privato/pubblico] [nome]");
             player.sendMessage("/wphelp");
             player.sendMessage(ChatColor.YELLOW + "-----------------------------------------------------");
 

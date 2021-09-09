@@ -23,23 +23,23 @@ public class PluginMain extends JavaPlugin {
         //getServer().getPluginManager().registerEvents( new Playermovelistener(), this);
 
         //set comandi
-        this.getCommand( "addwp").setExecutor( new Com_addwp() );
-        this.getCommand( "addwp").setTabCompleter( new Com_addwp() );
+        this.getCommand( "wpadd").setExecutor( new Com_wpadd() );
+        this.getCommand( "wpadd").setTabCompleter( new Com_wpadd() );
 
-        this.getCommand( "delwp").setExecutor( new Com_delwp() );
-        this.getCommand( "delwp").setTabCompleter( new Com_delwp() );
+        this.getCommand( "wpdel").setExecutor( new Com_wpdel() );
+        this.getCommand( "wpdel").setTabCompleter( new Com_wpdel() );
 
-        this.getCommand( "listwp").setExecutor( new Com_listwp() );
-        this.getCommand( "listwp").setTabCompleter( new Com_listwp() );
+        this.getCommand( "wplist").setExecutor( new Com_wplist() );
+        this.getCommand( "wplist").setTabCompleter( new Com_wplist() );
 
-        this.getCommand( "helpwp").setExecutor( new Com_helpwp() );
-        this.getCommand( "helpwp").setTabCompleter( new Com_helpwp() );
+        this.getCommand( "wphelp").setExecutor( new Com_wphelp() );
+        this.getCommand( "wphelp").setTabCompleter( new Com_wphelp() );
 
-        this.getCommand( "getwp").setExecutor( new Com_getwp() );
-        this.getCommand( "getwp").setTabCompleter( new Com_getwp() );
+        this.getCommand( "wpget").setExecutor( new Com_wpget() );
+        this.getCommand( "wpget").setTabCompleter( new Com_wpget() );
 
-        this.getCommand( "diswp").setExecutor( new Com_diswp() );
-        this.getCommand( "diswp").setTabCompleter( new Com_diswp() );
+        this.getCommand( "wpdis").setExecutor( new Com_wpdis() );
+        this.getCommand( "wpdis").setTabCompleter( new Com_wpdis() );
     }
 
     public void crea_cartella() {

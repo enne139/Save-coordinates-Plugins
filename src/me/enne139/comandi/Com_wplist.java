@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Com_listwp implements CommandExecutor, TabCompleter {
+public class Com_wplist implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -22,10 +22,6 @@ public class Com_listwp implements CommandExecutor, TabCompleter {
             String file = new String();
             boolean lungo = false;                              // se il formato di output deve essere lungo
 
-            if ( strings.length==0 ) {                          // se ci sono 0 argomenti
-                player.sendMessage(ChatColor.YELLOW + "/listwp <privato/pubblico> <info>");
-                return true;
-            }
 
             if ( strings.length>2 ) {                           // le ha più di due argomento ritorna la sintassi
                 player.sendMessage(ChatColor.YELLOW + "/listwp <privato/pubblico> <info>");

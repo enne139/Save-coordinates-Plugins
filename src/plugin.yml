@@ -2,27 +2,22 @@ main: me.enne139.PluginMain
 name: Save-coordinates-Plugins
 version: 0.5
 commands:
-  addwp:
+  wpadd:
     description: aggiunge un waypoint
     usage: /<command>
-    aliases: [ wpadd, wpa ]
-  delwp:
+  wpdel:
     description: cancella un waypoint
     usage: /<command>
-    aliases: [ wpdel ]
-  listwp:
+  wplist:
     description: mostra la lista dei waypoint
     usage: /<command>
-    aliases: [ wplist, wpl ]
-  helpwp:
+  wphelp:
     description: mostra la lista dei comandi
     usage: /<command>
-    aliases: [ wphelp, wph ]
-  getwp:
+    aliases: [ wph ]
+  wpget:
     description: mostra le cordiane di un waypoint
     usage: /<command>
-    aliases: [ wpget, wpg ]
-  diswp:
+  wpdis:
     description: mostra la distanza da un waypoint
     usage: /<command>
-    aliases: [ wpdis, wpd ]

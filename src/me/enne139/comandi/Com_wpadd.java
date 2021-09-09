@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Com_addwp implements CommandExecutor, TabCompleter {
+public class Com_wpadd implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -26,12 +26,12 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
             String file = new String();
 
             if ( strings.length==0 ) {                          // se ci sono 0 argomenti
-                player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/pubblico>");
+                player.sendMessage(ChatColor.YELLOW + "/wpadd [nome] <privato/pubblico>");
                 return true;
             }
 
             if ( strings.length>2 ) {                           // se ha più di due argomenti manda la sintassi
-                player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/pubblico>");
+                player.sendMessage(ChatColor.YELLOW + "/wpadd [nome] <privato/pubblico>");
                 return true;
             }
 
@@ -41,7 +41,7 @@ public class Com_addwp implements CommandExecutor, TabCompleter {
                 } else if ( strings[1].equals("privato") ){     // se il secondo argomento è "privato"
                     file = player.getUniqueId().toString();     // imposta il nome del file come l'uudi del utente
                 } else {                                        // se è un valore non valido manda la sintassi
-                    player.sendMessage(ChatColor.YELLOW + "/addwp [nome] <privato/pubblico>");
+                    player.sendMessage(ChatColor.YELLOW + "/wpadd [nome] <privato/pubblico>");
                     return true;
                 }
             }
