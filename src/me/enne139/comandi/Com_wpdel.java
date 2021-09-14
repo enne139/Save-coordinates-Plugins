@@ -49,7 +49,7 @@ public class Com_wpdel implements CommandExecutor, TabCompleter {
             boolean trovato = false;
             String val;
 
-            List<Waypoint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
+            List<Waypoint> p = PluginMain.leggi_waypoints( file);   // ottiene i waypoint salvati
             for ( int i=0; i<p.size(); i++) {                       // scorre la lista
                 val = (p.get(i)).nome;
                 if ( val.equals(nome) ) {                           // se trova il waypoint
@@ -107,7 +107,7 @@ public class Com_wpdel implements CommandExecutor, TabCompleter {
                     return arg;                                    // ritorna la lista con le possibile scelte
                 }
 
-                waypoints = PluginMain.leggi_waypoint( file);
+                waypoints = PluginMain.leggi_waypoints( file);
 
                 for ( int i=0; i< waypoints.size(); i++) {
                     arg.add( waypoints.get(i).nome );

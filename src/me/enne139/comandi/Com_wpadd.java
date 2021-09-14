@@ -1,6 +1,7 @@
 package me.enne139.comandi;
 
 import me.enne139.PluginMain;
+import me.enne139.ogg.Gruppo;
 import me.enne139.ogg.Waypoint;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Com_wpadd implements CommandExecutor, TabCompleter {
@@ -43,7 +45,10 @@ public class Com_wpadd implements CommandExecutor, TabCompleter {
                 } else {                                        // se è un valore non valido manda la sintassi
                     player.sendMessage(ChatColor.YELLOW + "/wpadd [nome] <privato/pubblico>");
                     return true;
-                }
+
+            }
+
+
             }
 
             if ( strings.length==1 ) {                          // se c'è un argomento solo
@@ -59,7 +64,7 @@ public class Com_wpadd implements CommandExecutor, TabCompleter {
             boolean trovato = false;
             String val;
 
-            List<Waypoint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
+            List<Waypoint> p = PluginMain.leggi_waypoints( file);   // ottiene i waypoint salvati
             for ( int i=0; i<p.size(); i++) {                       // scorre la lista
                 val = (p.get(i)).nome;
                 if ( val.equals(nome) ) {                           // se trova il waypoint
@@ -73,7 +78,7 @@ public class Com_wpadd implements CommandExecutor, TabCompleter {
                 return true;
             } else {                                                // prova a scrivere aggiungere il waypoint
 
-                boolean ess = PluginMain.append_file( file, pos, strings[0]);
+                boolean ess = PluginMain.append_waypoint( file, pos, strings[0]);
                 if ( ess ) {                                        // se riesce
                     player.sendMessage(ChatColor.GREEN + "waypoint aggiunto");
                 } else {                                            // se non riesce
@@ -95,7 +100,7 @@ public class Com_wpadd implements CommandExecutor, TabCompleter {
         if ( commandSender instanceof Player) {                     // se chi esegue il comando è un player
 
             if ( strings.length == 1 ) {                            // se che solo un argomento
-                arg.add( "nome");
+
 
             } else if ( strings.length == 2) {                      // se ci sono due argomenti
                 arg.add( "privato");

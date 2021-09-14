@@ -21,3 +21,9 @@ commands:
   wpdis:
     description: mostra la distanza da un waypoint
     usage: /<command>
+  wpgroup:
+    description: gestione gruppi
+    usage: /<command>
+  wpmebers:
+    description: gestione mebri gruppi
+    usage: /<command>

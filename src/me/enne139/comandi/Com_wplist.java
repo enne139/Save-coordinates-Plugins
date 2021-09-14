@@ -52,7 +52,7 @@ public class Com_wplist implements CommandExecutor, TabCompleter {
                 }
             }
 
-            List<Waypoint> wp = PluginMain.leggi_waypoint( file);      // legge i waypoint
+            List<Waypoint> wp = PluginMain.leggi_waypoints( file);      // legge i waypoint
 
             player.sendMessage(ChatColor.GOLD + "List waypoint -----------------");
             if ( lungo ) {                                              // se il formato è lungo

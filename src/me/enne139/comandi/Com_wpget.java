@@ -42,12 +42,12 @@ public class Com_wpget implements CommandExecutor, TabCompleter {
             }
 
 
-            List<Waypoint> wp = PluginMain.leggi_waypoint( file);  // legge i waypoint
+            List<Waypoint> wp = PluginMain.leggi_waypoints( file);  // legge i waypoint
 
             String nome = strings[1];
             String val;
 
-            List<Waypoint> p = PluginMain.leggi_waypoint( file);   // ottiene i waypoint salvati
+            List<Waypoint> p = PluginMain.leggi_waypoints( file);   // ottiene i waypoint salvati
             for ( int i=0; i<p.size(); i++) {                       // scorre la lista
                 val = (p.get(i)).nome;
                 if ( val.equals(nome) ) {                           // se trova il waypoint
@@ -94,7 +94,7 @@ public class Com_wpget implements CommandExecutor, TabCompleter {
                     return arg;                                    // ritorna la lista con le possibile scelte
                 }
 
-                waypoints = PluginMain.leggi_waypoint( file);
+                waypoints = PluginMain.leggi_waypoints( file);
 
                 for ( int i=0; i< waypoints.size(); i++) {
                     arg.add( waypoints.get(i).nome );

@@ -2,6 +2,7 @@ package me.enne139;
 
 
 import me.enne139.comandi.*;
+import me.enne139.ogg.Gruppo;
 import me.enne139.ogg.Waypoint;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -38,8 +39,11 @@ public class PluginMain extends JavaPlugin {
         this.getCommand( "wpget").setExecutor( new Com_wpget() );
         this.getCommand( "wpget").setTabCompleter( new Com_wpget() );
 
-        this.getCommand( "wpdis").setExecutor( new Com_wpdis() );
-        this.getCommand( "wpdis").setTabCompleter( new Com_wpdis() );
+        this.getCommand( "wpgroup").setExecutor( new Com_wpgroup() );
+        this.getCommand( "wpgroup").setTabCompleter( new Com_wpgroup() );
+
+        this.getCommand( "wpmebers").setExecutor( new Com_wpmebers() );
+        this.getCommand( "wpmebers").setTabCompleter( new Com_wpmebers() );
     }
 
     public void crea_cartella() {
@@ -59,10 +63,7 @@ public class PluginMain extends JavaPlugin {
         }
     }
 
-    public static boolean append_file(String file, Location pos, String nome )  {
-        String path = "plugins/saveCord/" + file;                       // percorso del file
-        String dati = nome +";"+ pos.getX() +";"+ pos.getY() + ";"+     // dati da aggiungere
-                      pos.getZ() +";"+ pos.getWorld().getName() + "\n";
+    public static boolean append_file(String path, String dati)  {
 
         try {
             File fw = new File( path);
@@ -82,8 +83,7 @@ public class PluginMain extends JavaPlugin {
         return true;
     }
 
-    public static List<String> legge_file(String file) {
-        String path = "plugins/saveCord/" + file;           // percorso del file
+    public static List<String> legge_file(String path) {
         List<String> list = new ArrayList<String>();
         try {
             File fr = new File( path);
@@ -104,10 +104,11 @@ public class PluginMain extends JavaPlugin {
         return list;                                        // restituisce lista righe
     }
 
-    public static List<Waypoint> leggi_waypoint(String utente) {
+    public static List<Waypoint> leggi_waypoints(String file) {
 
+        String path = "plugins/saveCord/" + file;                 // percorso del file
         List<Waypoint> waypoints = new ArrayList<Waypoint>() ;
-        List<String> linee = legge_file( utente) ;                  // ottiene righe di un file
+        List<String> linee = legge_file( path) ;                  // ottiene righe di un file
 
 
         for ( int i=0; i<linee.size(); i++){                       // scorre il file di righe
@@ -115,6 +116,16 @@ public class PluginMain extends JavaPlugin {
         }
 
         return waypoints;                                         // ristorna lista waypoint
+    }
+
+    public static boolean append_waypoint(String file, Location pos, String nome )  {
+        String path = "plugins/saveCord/" + file;                       // percorso del file
+        String dati = nome +";"+ pos.getX() +";"+ pos.getY() + ";"+     // dati da aggiungere
+                pos.getZ() +";"+ pos.getWorld().getName() + "\n";
+
+        append_file( path, dati);
+
+        return true;
     }
 
     public static boolean cancella_waypoint( String utente, String nome) {
@@ -142,7 +153,7 @@ public class PluginMain extends JavaPlugin {
                 originale = liena.trim();
                 val =  originale.split(";")[0];
 
-                if ( nome.equals( val) ) {                      // controlla se è la gia da cancellare
+                if ( nome.equals( val) ) {                      // controlla se va cancellata la riga
                     continue;                                   // salta la copia della riga
                 }
 
@@ -158,6 +169,180 @@ public class PluginMain extends JavaPlugin {
         } catch(IOException e){
             e.printStackTrace();
             Cwarning("cancellazione dati fallita");         // segnala problema sulla console
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean append_gruppi(String nome, String proprietario )  {
+        String path = "plugins/saveCord/GRUP";                          // percorso del file
+        String dati = nome + ";*" + proprietario + "\n";                // dati da aggiungere
+
+        append_file( path, dati);
+
+        return true;
+    }
+
+    public static List<Gruppo> leggi_gruppi() {
+
+        String path = "plugins/saveCord/GRUP";                    // percorso del file
+        List<Gruppo> gruppi = new ArrayList<Gruppo>() ;
+        List<String> linee = legge_file( path) ;                  // ottiene righe di un file
+
+
+        for ( int i=0; i<linee.size(); i++){                      // scorre il file di righe
+            gruppi.add( new Gruppo( linee.get(i) ) );             // crea e aggiunge alla lista dei gruppi
+        }
+
+        return gruppi;                                            // ristorna lista gruppi
+    }
+
+    public static boolean append_membro_gruppo( String gruppoNome, String membro, String permesso) {
+        String path_u = "plugins/saveCord/GRUP";                // indirizzo file sorgente
+        String path_t = "plugins/saveCord/temp" ;               // indirizzo file destinazione
+        String liena;
+        String val;
+        String originale;
+
+        try {
+            File fr = new File( path_u);
+            File fw = new File( path_t);
+
+            if( fw.exists()) {                                  // controlla se esiste il file di destinazione
+                fw.delete();                                    // cancella il file di out
+                fw.createNewFile();                             // ricrea il file di out
+            }
+
+            BufferedReader br = new BufferedReader( new FileReader(fr));
+            BufferedWriter bw = new BufferedWriter( new FileWriter(fw));
+
+            while ( br.ready() ) {                              // legge fino alla fine del file di in
+
+                liena = br.readLine();
+                originale = liena.trim();
+                val =  originale.split(";")[0];
+
+                if ( gruppoNome.equals( val) ) {                      // controlla se è la gia da cancellare
+                    liena +=  ";" + permesso + membro;          // aggiunge il nuovo membro
+                }
+
+                bw.append( liena+"\n");                         // copia la riga nel file di out
+            }
+            bw.close();                                         // chiude file in e out
+            br.close();
+
+            fr.delete();                                        // cancella il file di in
+            fw.renameTo( fr);                                   // rinomina il file di out come quello di in
+
+
+        } catch(IOException e){
+            e.printStackTrace();
+            Cwarning("agginta mebro fallita");             // segnala problema sulla console
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean remove_membro_gruppo( String gruppoNome, String membro) {
+        String path_u = "plugins/saveCord/GRUP"   ;             // indirizzo file sorgente
+        String path_t = "plugins/saveCord/temp" ;               // indirizzo file destinazione
+        String liena;
+        String val;
+        String originale;
+        String[] membri;
+
+        try {
+            File fr = new File( path_u);
+            File fw = new File( path_t);
+
+            if( fw.exists()) {                                  // controlla se esiste il file di destinazione
+                fw.delete();                                    // cancella il file di out
+                fw.createNewFile();                             // ricrea il file di out
+            }
+
+            BufferedReader br = new BufferedReader( new FileReader(fr));
+            BufferedWriter bw = new BufferedWriter( new FileWriter(fw));
+
+            while ( br.ready() ) {                              // legge fino alla fine del file di in
+
+                liena = br.readLine();
+                originale = liena.trim();
+                val =  originale.split(";")[0];
+
+                if ( gruppoNome.equals( val) ) {                      // controlla se è la gia da cancellare
+
+                    membri = originale.split(";");        // ottiene lista dei membri
+
+                    liena = "" + membri[0] + ";" + membri[1];   // aggiunta nome gruppo e proprietario
+
+                    for ( int i=2; i<membri.length; i++ ) {     // scorre la lista
+                        if ( membri[i].substring(1).equals( membro) ) {      // se è il nome da togliere non lo aggiunge alla linea
+                            continue;
+                        }
+                        liena += ";" + membri[i];
+                    }
+
+                    // rimozione gruppo membro
+                }
+
+                bw.append( liena+"\n");                         // copia la riga nel file di out
+            }
+            bw.close();                                         // chiude file in e out
+            br.close();
+
+            fr.delete();                                        // cancella il file di in
+            fw.renameTo( fr);                                   // rinomina il file di out come quello di in
+
+
+        } catch(IOException e){
+            e.printStackTrace();
+            Cwarning("cancellazione mebro fallita");       // segnala problema sulla console
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean cancella_gruppo( String gruppoNome) {
+        String path_u = "plugins/saveCord/GRUP" ;           // indirizzo file sorgente
+        String path_t = "plugins/saveCord/temp" ;               // indirizzo file destinazione
+        String liena;
+        String val;
+        String originale;
+
+        try {
+            File fr = new File( path_u);
+            File fw = new File( path_t);
+
+            if( fw.exists()) {                                  // controlla se esiste il file di destinazione
+                fw.delete();                                    // cancella il file di out
+                fw.createNewFile();                             // ricrea il file di out
+            }
+
+            BufferedReader br = new BufferedReader( new FileReader(fr));
+            BufferedWriter bw = new BufferedWriter( new FileWriter(fw));
+
+            while ( br.ready() ) {                              // legge fino alla fine del file di in
+
+                liena = br.readLine();
+                originale = liena.trim();
+                val =  originale.split(";")[0];
+
+                if ( gruppoNome.equals( val) ) {                      // controlla se va cancellata la riga
+                    continue;                                   // salta la copia della riga
+                }
+
+                bw.append( liena+"\n");                         // copia la riga nel file di out
+            }
+            bw.close();                                         // chiude file in e out
+            br.close();
+
+            fr.delete();                                        // cancella il file di in
+            fw.renameTo( fr);                                   // rinomina il file di out come quello di in
+
+
+        } catch(IOException e){
+            e.printStackTrace();
+            Cwarning("cancellazione gruppo fallita");     // segnala problema sulla console
             return false;
         }
         return true;
