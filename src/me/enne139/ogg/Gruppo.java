@@ -96,10 +96,9 @@ public class Gruppo {
         gruppi = PluginMain.leggi_gruppi();                         // legge tutti i gruppi
 
         for ( int i=0; i<gruppi.size(); i++) {                      // scorre gruppi
-            if ( gruppi.get(i).is_inside( pl) ) {                   // se il player è nel gruppo
-                if ( pl.charAt(0) == '+' ) {                        // se il player puo aggiungere al gruppo
-                    out.add( gruppi.get(i));
-                }
+            if ( gruppi.get(i).puo_aggiungere( pl) ) {              // se il player puo aggiungere al gruppo
+                out.add( gruppi.get(i));
+
             }
         }
 

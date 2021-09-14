@@ -42,13 +42,20 @@ public class Com_wpadd implements CommandExecutor, TabCompleter {
                     file = "GLOBAL";                            // imposta il nome del file come GLOBAL
                 } else if ( strings[1].equals("privato") ){     // se il secondo argomento è "privato"
                     file = player.getUniqueId().toString();     // imposta il nome del file come l'uudi del utente
-                } else {                                        // se è un valore non valido manda la sintassi
-                    player.sendMessage(ChatColor.YELLOW + "/wpadd [nome] <privato/pubblico>");
-                    return true;
+                } else {
+                    Gruppo salvGruppo = Gruppo.get_gruppo( strings[1]);                            // ottiene l' oggetto del gruppo
+                    if ( !Objects.isNull( salvGruppo) ) {                                          // se l' oggetto non è nullo
+                        if ( !salvGruppo.puo_aggiungere( player.getName()) ) {                     // se il player non può aggiunge wp
+                            player.sendMessage(ChatColor.RED + "gruppo esistente");
+                            return true;
+                        }
+                        file = "#" + salvGruppo.nome;                                               // imposta l' indirizzo del file
 
-            }
-
-
+                    } else {                                                                        // se è un valore non valido manda la sintassi
+                        player.sendMessage(ChatColor.YELLOW + "/wpadd [nome] <privato/pubblico>");
+                        return true;
+                    }
+                }
             }
 
             if ( strings.length==1 ) {                          // se c'è un argomento solo
@@ -99,12 +106,22 @@ public class Com_wpadd implements CommandExecutor, TabCompleter {
 
         if ( commandSender instanceof Player) {                     // se chi esegue il comando è un player
 
+            Player player = (Player) commandSender;                 // ottiene il player
+            List<Gruppo> gruppi;                                    // lista di gruppi
+
             if ( strings.length == 1 ) {                            // se che solo un argomento
 
 
             } else if ( strings.length == 2) {                      // se ci sono due argomenti
                 arg.add( "privato");
                 arg.add( "pubblico");
+
+                gruppi = Gruppo.get_grup_wp_add( player.getName()); // ottiene i gruppi in cui puo aggiungere wp
+
+                for ( int i=0; i<gruppi.size(); i++) {
+                    arg.add( gruppi.get(i).nome );
+                }
+
             }
 
         }

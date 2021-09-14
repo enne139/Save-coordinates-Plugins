@@ -39,11 +39,14 @@ public class PluginMain extends JavaPlugin {
         this.getCommand( "wpget").setExecutor( new Com_wpget() );
         this.getCommand( "wpget").setTabCompleter( new Com_wpget() );
 
+        this.getCommand( "wpdis").setExecutor( new Com_wpdis() );
+        this.getCommand( "wpdis").setTabCompleter( new Com_wpdis() );
+
         this.getCommand( "wpgroup").setExecutor( new Com_wpgroup() );
         this.getCommand( "wpgroup").setTabCompleter( new Com_wpgroup() );
 
-        this.getCommand( "wpmebers").setExecutor( new Com_wpmebers() );
-        this.getCommand( "wpmebers").setTabCompleter( new Com_wpmebers() );
+        this.getCommand( "wpmebers").setExecutor( new Com_wpdis() );
+        this.getCommand( "wpmebers").setTabCompleter( new Com_wpdis() );
     }
 
     public void crea_cartella() {
