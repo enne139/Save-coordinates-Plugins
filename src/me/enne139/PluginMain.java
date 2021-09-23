@@ -1,9 +1,7 @@
 package me.enne139;
-
-
 import me.enne139.comandi.*;
-import me.enne139.ogg.Gruppo;
-import me.enne139.ogg.Waypoint;
+import me.enne139.ogg.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,6 +45,9 @@ public class PluginMain extends JavaPlugin {
 
         this.getCommand( "wpmebers").setExecutor( new Com_wpdis() );
         this.getCommand( "wpmebers").setTabCompleter( new Com_wpdis() );
+
+        this.getCommand( "wpshow").setExecutor( new Com_wpshow() );
+        this.getCommand( "wpshow").setTabCompleter( new Com_wpshow() );
     }
 
     public void crea_cartella() {

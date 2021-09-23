@@ -27,3 +27,6 @@ commands:
   wpmebers:
     description: gestione mebri gruppi
     usage: /<command>
+  wpshow:
+    description: mostra le cordiante del waypoint nelle scorboard
+    usage: /<command>
